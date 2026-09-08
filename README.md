@@ -203,9 +203,9 @@ it.
 ---
 
 <p align="center">
-  <img src="artefacts/Phoenix%20Purple.png" alt="Phoenix Purple" width="140">
+  <img src="artefacts/Phoenix-Purple.png" alt="Phoenix Purple" width="140">
 </p>
 
 <p align="center">
-  <sub><b>Secure AI. Ship faster.</b><br>MIT licensed · © 2026 Phoenix Security</sub>
+  <sub><b>Security in agent. Security from generation to remediation.</b><br>MIT licensed · © 2026 Phoenix Security</sub>
 </p>

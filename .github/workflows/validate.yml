@@ -1,0 +1,63 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# The marketplace tracks the default branch, so a merge to main is a release.
+# This job is what keeps main installable.
+jobs:
+  validate:
+    name: Marketplace and plugin manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace manifest
+        run: claude plugin validate .
+
+      - name: Validate plugin manifest and skills
+        run: claude plugin validate ./plugins/purple-security
+
+      # `claude plugin validate` prints a per-skill line only on failure, so a clean
+      # run is silent about the skills. This check is what proves each SKILL.md is
+      # actually present and has parseable frontmatter with a name.
+      - name: Every skill has parseable frontmatter with a name
+        run: |
+          set -euo pipefail
+          fail=0
+          for f in plugins/purple-security/skills/*/SKILL.md; do
+            if [ ! -f "$f" ]; then
+              echo "::error::missing SKILL.md at $f"; fail=1; continue
+            fi
+            if [ "$(head -n 1 "$f")" != "---" ]; then
+              echo "::error file=$f::frontmatter does not open with ---"; fail=1
+            fi
+            if ! grep -q '^name: ' "$f"; then
+              echo "::error file=$f::no 'name:' field in frontmatter"; fail=1
+            fi
+            # A bare comma-separated list of quoted scalars is not valid YAML; it
+            # makes the whole frontmatter block fail to parse, and every field is
+            # then silently dropped at load time. Use a flow sequence instead.
+            if grep -qE '^trigger: *"[^"]*" *,' "$f"; then
+              echo "::error file=$f::trigger must be a YAML list [\"a\", \"b\"], not a bare comma-separated list"; fail=1
+            fi
+            echo "ok  $f"
+          done
+          exit $fail
+
+      - name: No credential committed
+        run: |
+          set -euo pipefail
+          # Reports the file and pattern only — never the matched value.
+          if grep -rInE 'gh[pousr]_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|phx_at_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----' \
+               --exclude-dir=.git . -l; then
+            echo "::error::a credential-shaped value is present in the files listed above"
+            exit 1
+          fi
+          echo "no credential-shaped values found"

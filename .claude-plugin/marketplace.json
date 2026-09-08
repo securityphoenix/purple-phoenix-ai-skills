@@ -1,0 +1,32 @@
+{
+  "name": "phoenix-purple",
+  "description": "Phoenix Security's Purple plugins for Claude Code — security scanning across nine domains, per-finding remediation guidance, and knowledge-graph code navigation, all driven through the Phoenix MCP endpoints.",
+  "owner": {
+    "name": "Phoenix Security",
+    "url": "https://phoenix.security"
+  },
+  "plugins": [
+    {
+      "name": "purple-security",
+      "source": "./plugins/purple-security",
+      "description": "Phoenix Purple security scanning and remediation guidance: /purple-scan (9 scan domains + per-finding fix guidance), /purple-graph-navigator (call graph, entry points, blast radius) and /purple-dev-flow (index-then-scan developer loop).",
+      "version": "1.1.0",
+      "category": "security",
+      "license": "MIT",
+      "homepage": "https://phoenix.security",
+      "repository": "https://github.com/securityphoenix/purple-skills",
+      "keywords": [
+        "security",
+        "sast",
+        "sca",
+        "sbom",
+        "secrets",
+        "iac",
+        "container-scanning",
+        "remediation",
+        "exploit-hunt",
+        "code-intelligence"
+      ]
+    }
+  ]
+}

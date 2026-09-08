@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "phoenix-security": {
+      "url": "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/security",
+      "headers": { "Authorization": "Bearer ${env:PHX_MCP_TOKEN}" }
+    },
+    "phoenix-graph": {
+      "url": "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/graph",
+      "headers": { "Authorization": "Bearer ${env:PHX_MCP_TOKEN}" }
+    }
+  }
+}

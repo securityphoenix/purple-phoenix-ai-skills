@@ -1,0 +1,25 @@
+{
+  "name": "purple-security",
+  "displayName": "Phoenix Purple — Security Scanning",
+  "version": "1.1.0",
+  "description": "Run Phoenix Purple security scans (SAST, SCA, secrets, IaC, container, zero-day, assessment, exploit hunt) from your assistant, read findings back, and get per-finding remediation guidance — over MCP, with a REST fallback.",
+  "author": {
+    "name": "Phoenix Security",
+    "url": "https://phoenix.security"
+  },
+  "homepage": "https://phoenix.security",
+  "repository": "https://github.com/securityphoenix/purple-skills",
+  "license": "MIT",
+  "keywords": [
+    "security",
+    "sast",
+    "sca",
+    "sbom",
+    "secrets",
+    "iac",
+    "container-scanning",
+    "remediation",
+    "exploit-hunt",
+    "code-intelligence"
+  ]
+}

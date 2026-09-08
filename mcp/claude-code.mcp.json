@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "phoenix-security": {
+      "type": "http",
+      "url": "${PHX_BASE_URL}/api/v1/external/mcp/security",
+      "headers": { "Authorization": "Bearer ${PHX_MCP_TOKEN}" }
+    },
+    "phoenix-graph": {
+      "type": "http",
+      "url": "${PHX_BASE_URL}/api/v1/external/mcp/graph",
+      "headers": { "Authorization": "Bearer ${PHX_MCP_TOKEN}" }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+# Phoenix Purple — Codex MCP registration
+#
+# Codex has no plugin marketplace, so this is the Codex equivalent of installing
+# the Claude Code plugin. Merge these tables into your existing config; do not
+# overwrite the file.
+#
+#   User-wide:      ~/.codex/config.toml
+#   One project:    .codex/config.toml
+#
+# Replace YOUR-TENANT with your Phoenix host. The token is NOT written here —
+# Codex reads it from the named environment variable:
+#
+#   export PHX_MCP_TOKEN="phx_at_..."
+
+[mcp_servers.phoenix-security]
+url = "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/security"
+bearer_token_env_var = "PHX_MCP_TOKEN"
+enabled = true
+
+[mcp_servers.phoenix-graph]
+url = "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/graph"
+bearer_token_env_var = "PHX_MCP_TOKEN"
+enabled = true

@@ -1,0 +1,22 @@
+{
+  "servers": {
+    "phoenix-security": {
+      "type": "http",
+      "url": "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/security",
+      "headers": { "Authorization": "Bearer ${input:phx-mcp-token}" }
+    },
+    "phoenix-graph": {
+      "type": "http",
+      "url": "https://YOUR-TENANT.phoenix.security/api/v1/external/mcp/graph",
+      "headers": { "Authorization": "Bearer ${input:phx-mcp-token}" }
+    }
+  },
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "phx-mcp-token",
+      "description": "Phoenix Purple MCP token",
+      "password": true
+    }
+  ]
+}

@@ -1,10 +1,19 @@
-# Phoenix Purple — Skills for AI Coding Assistants
+<p align="center">
+  <img src="artefacts/Repo-skills.png" alt="Phoenix Purple — Skills for AI Coding Assistants" width="100%">
+</p>
 
-Run Phoenix Purple security scans from inside Claude Code, Cursor, VS Code or Codex — then ask
-your assistant what a finding is and how to fix it, without leaving the editor.
+<h1 align="center">Phoenix Purple — Skills for AI Coding Assistants</h1>
 
-[![Validate](https://github.com/securityphoenix/purple-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/securityphoenix/purple-skills/actions/workflows/validate.yml)
-&nbsp;·&nbsp; [Changelog](CHANGELOG.md) &nbsp;·&nbsp; MIT licensed
+<p align="center">
+  Run Phoenix Purple security scans from inside Claude Code, Cursor, VS Code or Codex —<br>
+  then ask your assistant what a finding is and how to fix it, without leaving the editor.
+</p>
+
+<p align="center">
+  <a href="https://github.com/securityphoenix/purple-skills/actions/workflows/validate.yml"><img src="https://github.com/securityphoenix/purple-skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-1.1.0-8B5CF6" alt="Changelog"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-8B5CF6" alt="MIT licensed"></a>
+</p>
 
 ---
 
@@ -190,3 +199,13 @@ it.
 
 - Issues with these skills: [open an issue](https://github.com/securityphoenix/purple-skills/issues)
 - Phoenix Purple product: <https://phoenix.security>
+
+---
+
+<p align="center">
+  <img src="artefacts/Phoenix%20Purple.png" alt="Phoenix Purple" width="140">
+</p>
+
+<p align="center">
+  <sub><b>Secure AI. Ship faster.</b><br>MIT licensed · © 2026 Phoenix Security</sub>
+</p>

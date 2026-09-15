@@ -588,6 +588,7 @@ Next steps:
 |-------|-------|------------|
 | Tool missing from `tools/list` | Feature flag off, wrong endpoint, or graph tool called on security endpoint | Check feature flag; graph tools only exist on `phoenix-graph` |
 | `tenant_id required` (Prometheus MCP) | Missing arg | Pass dev user ID for local; JWT subject for prod |
+| `401 Unauthorized` (REST), empty body | **Wrong credential type** — a `phx_live_` API key is being sent where a `phx_at_` access token is required. `/api/v1/external/**` rejects any other prefix before looking it up, so there is no body and no server log line | Exchange it: `curl -s -X POST -H "Authorization: Bearer $PHX_MCP_TOKEN" -H 'Content-Type: application/json' -d '{}' "$PHX_BASE_URL/api/v1/external/auth/token" | jq -r .accessToken` |
 | `401 Unauthorized` (REST) | Token expired | Re-run `scripts/purple auth token` (auto-refreshes); if that fails, run `scripts/purple auth login` |
 | `403` on SSE stream (REST) | Missing `stream_secret` | Re-read from start-run response |
 | `graphStale: true` | Graph outdated | Connect `phoenix-graph` and call `analyze` (MCP) or `POST /api/analyze/start` (REST) |

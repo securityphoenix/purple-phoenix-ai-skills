@@ -70,14 +70,42 @@ text yet.
 You need two things:
 
 1. **A Phoenix Purple tenant URL**, e.g. `https://your-tenant.phoenix.security`.
-2. **An MCP token** for that tenant. Create one in Phoenix under **Settings → API keys**.
+2. **An MCP token** for that tenant — a value beginning `phx_at_`.
 
-Keep the token in an environment variable. Every configuration below reads it from there, so the
-token never lands in a file you might commit:
+   Phoenix issues two different credentials and they are **not** interchangeable.
+   **Settings → API keys** gives you an *API key* (`phx_live_…`), which the MCP
+   endpoints do **not** accept. Use the **MCP install token** action, which issues a
+   90-day `phx_at_…` token, or exchange an API key for one:
+
+   Set the tenant URL first — the exchange expands it, so it has to exist by then:
+
+   ```bash
+   export PHX_BASE_URL="https://your-tenant.phoenix.security"
+   ```
+
+   Then exchange the key. It is read silently and handed to `curl` over stdin,
+   never in argv, where `ps` would show it to every other process on the machine:
+
+   ```bash
+   read -rs -p 'phx_live_ API key: ' PHX_LIVE_KEY; echo
+   printf 'Authorization: Bearer %s\n' "$PHX_LIVE_KEY" \
+     | curl -sS -X POST -H @- \
+         -H 'Content-Type: application/json' -d '{}' \
+         "$PHX_BASE_URL/api/v1/external/auth/token" | jq -r .accessToken
+   unset PHX_LIVE_KEY
+   ```
+
+   On the protected MCP endpoints, a bearer whose prefix is not `phx_at_` is
+   rejected before it is looked up, so you get a bodiless `401` with nothing in the
+   server log — it looks like an outage and is not one.
+   `/api/v1/external/auth/token` is the exception: it is a mint route and takes the
+   API key, which is what makes the command above work at all.
+
+Keep the resulting token in an environment variable. Every configuration below reads it from there,
+so the token never lands in a file you might commit:
 
 ```bash
 export PHX_MCP_TOKEN="phx_at_..."
-export PHX_BASE_URL="https://your-tenant.phoenix.security"
 ```
 
 Add those to your shell profile (`~/.zshrc`, `~/.bashrc`) so they survive a new terminal.
@@ -171,6 +199,7 @@ Then try a real scan:
 | Symptom | Cause | Fix |
 |---|---|---|
 | Assistant says the Phoenix tools do not exist | MCP config not loaded | Restart the assistant after writing the config file |
+| `401 Unauthorized`, empty response body | **Wrong credential type** — `PHX_MCP_TOKEN` holds a `phx_live_` API key, not a `phx_at_` access token | `case "$PHX_MCP_TOKEN" in phx_at_*) echo ok;; *) echo wrong-type;; esac` — if it is not `phx_at_`, mint an MCP install token or exchange the key (see **Before you start**) |
 | `401 Unauthorized` | Token expired or not exported | Re-export `PHX_MCP_TOKEN`; mint a new token in Phoenix if needed |
 | A domain is missing from `list_scan_domains` | Disabled on your deployment | Ask your Phoenix administrator to enable it |
 | `finding_remediation` says "not found" | Wrong id | Use the `Stable ID:` line from `sast_findings`, not `ID:` |
